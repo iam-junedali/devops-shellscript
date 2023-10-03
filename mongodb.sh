@@ -1,0 +1,6 @@
+echo -e "\e[31m Hello in Red colour \e[0m"
+echo -e "\e[32m Hello in Green colour \e[0m"
+echo -e "\e[33m Hello in Yellow colour \e[0m"
+echo -e "\e[34m Hello in Blue colour \e[0m"
+echo -e "\e[35m Hello in Magenta colour \e[0m"
+echo -e "\e[36m Hello in Cyan colour \e[0m"
