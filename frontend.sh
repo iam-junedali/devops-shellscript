@@ -1,11 +1,11 @@
-#Red -31, Green - 32, Yellow -33, Blue -34, Megenta -35 and Cyan - 36
+#Red -31, Green - 32, Yellow -33, Blue -34, Magenta -35 and Cyan - 36
 
-#echo -e "\e[31m This is message \e[0m"
-#echo -e "\e[32m This is message \e[0m"
-#echo -e "\e[33m This is message \e[0m"
-#echo -e "\e[34m This is message \e[0m"
-#echo -e "\e[35m This is message \e[0m"
-#echo -e "\e[36m This is message \e[0m"
+#echo -e "\e[31m This is message prints in Red \e[0m"
+#echo -e "\e[32m This is message prints in Green \e[0m"
+#echo -e "\e[33m This is message prints in Yellow \e[0m"
+#echo -e "\e[34m This is message prints in Blue \e[0m"
+#echo -e "\e[35m This is message prints in Magenta \e[0m"
+#echo -e "\e[36m This is message prints in Cyan \e[0m"
 
 echo -e "\e[36m Install Nginx \e[0m"
 yum install nginx -y
