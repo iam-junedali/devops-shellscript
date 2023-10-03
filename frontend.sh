@@ -28,6 +28,3 @@ unzip /tmp/frontend.zip
 
 echo -e "\e[36m Restart Nginx Service to load the changes of the configuration \e[0m"
 systemctl restart nginx
-
-
-
