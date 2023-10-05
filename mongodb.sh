@@ -13,7 +13,7 @@ dnf install mongodb-org -y &>>/tmp/roboshop.log
 
 #update listen address from 127.0.0.1 to 0.0.0.0
 echo -e "\e[35m Updated listen address from 127.0.0.1 to 0.0.0.0 \e[0m"
-sed -i -e 's/127.0.0.1/0.0.0.0' /etc/mongod.conf
+sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf
 
 echo -e "\e[35m Start & Enable MongoDB Service \e[0m"
 systemctl enable mongod &>>/tmp/roboshop.log
