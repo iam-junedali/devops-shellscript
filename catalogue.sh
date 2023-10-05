@@ -15,7 +15,7 @@ echo -e "\e[36m Download Application content \e[0m"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>>/tmp/roboshop.log
 
 echo -e "\e[36m Change to app directory \e[0m"
-cd /app &>>/tmp/roboshop.log
+cd /app
 
 echo -e "\e[36m Extract Application content \e[0m"
 unzip /tmp/catalogue.zip &>>/tmp/roboshop.log
