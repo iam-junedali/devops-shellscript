@@ -43,4 +43,4 @@ echo -e "\e[36m Install mongo-shell \e[0m"
 dnf install mongodb-org-shell -y &>>/tmp/roboshop.log
 
 echo -e "\e[36m Configure Host \e[0m"
-mongo --host mongodb-dev.joyousgroups.com </app/schema/catalogue.js &>>/tmp/roboshop.log
+mongo --host mongodb-dev.joyousgroups.com </app/schema/user.js &>>/tmp/roboshop.log
