@@ -24,7 +24,8 @@ echo -e "\e[36m Extract the frontend content \e[0m"
 cd /usr/share/nginx/html &>>/tmp/roboshop.log
 unzip /tmp/frontend.zip &>>/tmp/roboshop.log
 
-#Copy the roboshop.conf file
+echo -e "\e[36m Update Frontend Configuration \e[0m"
+cp roboshop.conf /etc/nginx/default.d/roboshop.conf
 
 echo -e "\e[36m Restart Nginx Service to load the changes of the configuration \e[0m"
 systemctl restart nginx &>>/tmp/roboshop.log
