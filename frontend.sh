@@ -25,7 +25,7 @@ cd /usr/share/nginx/html &>>/tmp/roboshop.log
 unzip /tmp/frontend.zip &>>/tmp/roboshop.log
 
 echo -e "\e[36m Update Frontend Configuration \e[0m"
-cp roboshop.conf /etc/nginx/default.d/roboshop.conf
+cp /home/centos/devops-shellscript/roboshop.conf /etc/nginx/default.d/roboshop.conf
 
 echo -e "\e[36m Restart Nginx Service to load the changes of the configuration \e[0m"
 systemctl restart nginx &>>/tmp/roboshop.log
