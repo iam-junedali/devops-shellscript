@@ -33,8 +33,8 @@ echo -e "\e[36m Daemon reload \e[0m"
 systemctl daemon-reload
 
 echo -e "\e[36m Enable and restart catalogue service \e[0m"
-systemctl enable catalogue
-systemctl restart catalogue
+systemctl enable catalogue &>>/tmp/roboshop.log
+systemctl restart catalogue &>>/tmp/roboshop.log
 
 echo -e "\e[36m Copy mongo.repo file \e[0m"
 cp /home/centos/devops-shellscript/mongo.repo /etc/yum.repos.d/mongo.repo
