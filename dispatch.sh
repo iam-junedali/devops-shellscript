@@ -1,5 +1,5 @@
 echo -e "\e[36m Install Golang \e[0m"
-dnf install golang -y
+dnf install golang -y &>>/tmp/roboshop.log
 
 echo -e "\e[36m Useradd Roboshop \e[0m"
 useradd roboshop &>>/tmp/roboshop.log
