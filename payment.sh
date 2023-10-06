@@ -27,7 +27,4 @@ systemctl daemon-reload &>>/tmp/roboshop.log
 
 echo -e "\e[36m Enable and restart the service \e[0m"
 systemctl enable payment &>>/tmp/roboshop.log
-systemctl start payment &>>/tmp/roboshop.log
-
-
-
+systemctl restart payment &>>/tmp/roboshop.log
