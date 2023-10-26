@@ -1,34 +1,36 @@
 component=catalogue
 colour="\e[35m"
 nocolour="\e[0m"
+logfile="&>>/tmp/roboshop.log"
+app_path="/app"
 
 echo -e "${colour} Configuring NodeJS repos ${nocolour}"
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>/tmp/roboshop.log
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash ${logfile}
 
 echo -e "${colour} Install NodeJS ${nocolour}"
-dnf install nodejs -y &>>/tmp/roboshop.log
+dnf install nodejs -y ${logfile}
 
 echo -e "${colour} Add Roboshop User ${nocolour}"
-useradd roboshop &>>/tmp/roboshop.log
+useradd roboshop ${logfile}
 
 echo -e "${colour} Create application directory ${nocolour}"
-rm -rf /app &>>/tmp/roboshop.log
-mkdir /app &>>/tmp/roboshop.log
+rm -rf ${app_path} ${logfile}
+mkdir ${app_path} ${logfile}
 
 echo -e "${colour} Download Application content ${nocolour}"
-curl -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$component.zip &>>/tmp/roboshop.log
+curl -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$component.zip ${logfile}
 
 echo -e "${colour} Change to app directory ${nocolour}"
-cd /app
+cd ${app_path}
 
 echo -e "${colour} Extract Application content ${nocolour}"
-unzip /tmp/$component.zip &>>/tmp/roboshop.log
+unzip /tmp/$component.zip ${logfile}
 
 echo -e "${colour} change to app directory ${nocolour}"
-cd /app
+cd ${app_path}
 
 echo -e "${colour} Install NodeJS Dependencies ${nocolour}"
-npm install &>>/tmp/roboshop.log
+npm install ${logfile}
 
 echo -e "${colour} setup systemd service ${nocolour}"
 cp /home/centos/devops-shellscript/$component.service /etc/systemd/system/$component.service
@@ -37,14 +39,14 @@ echo -e "${colour} Daemon reload ${nocolour}"
 systemctl daemon-reload
 
 echo -e "${colour} Enable and restart catalogue service ${nocolour}"
-systemctl enable $component &>>/tmp/roboshop.log
-systemctl restart $component &>>/tmp/roboshop.log
+systemctl enable $component ${logfile}
+systemctl restart $component ${logfile}
 
 echo -e "${colour} Copy mongo.repo file ${nocolour}"
 cp /home/centos/devops-shellscript/mongo.repo /etc/yum.repos.d/mongo.repo
 
 echo -e "${colour} Install mongo-shell ${nocolour}"
-dnf install mongodb-org-shell -y &>>/tmp/roboshop.log
+dnf install mongodb-org-shell -y ${logfile}
 
 echo -e "${colour} Configure Host ${nocolour}"
-mongo --host mongodb-dev.joyousgroups.com </app/schema/$component.js &>>/tmp/roboshop.log
+mongo --host mongodb-dev.joyousgroups.com <${app_path}/schema/$component.js ${logfile}
