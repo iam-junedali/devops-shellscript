@@ -3,12 +3,7 @@ nocolour="\e[0m"
 logfile="/tmp/roboshop.log"
 app_path="/app"
 
-nodejs() {
-  echo -e "${colour} Configuring NodeJS repos ${nocolour}"
-  curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${logfile}
-
-  echo -e "${colour} Install NodeJS ${nocolour}"
-  dnf install nodejs -y &>>${logfile}
+application_setup(){
 
   echo -e "${colour} Add Roboshop User ${nocolour}"
   useradd roboshop &>>${logfile}
@@ -23,8 +18,31 @@ nodejs() {
   echo -e "${colour} Change to app directory ${nocolour}"
   cd ${app_path}
 
-  echo -e "${colour} Extract Application content ${nocolour}"
+  echo -e "${colour} Extract the application content ${nocolour}"
   unzip /tmp/$component.zip &>>${logfile}
+}
+
+systemd_setup() {
+
+    echo -e "${colour} setup systemd service ${nocolour}"
+    cp /home/centos/devops-shellscript/$component.service /etc/systemd/system/$component.service
+
+    echo -e "${colour} Daemon reload ${nocolour}"
+    systemctl daemon-reload
+
+    echo -e "${colour} Enable and restart catalogue service ${nocolour}"
+    systemctl enable $component &>>${logfile}
+    systemctl restart $component &>>${logfile}
+}
+
+nodejs() {
+  echo -e "${colour} Configuring NodeJS repos ${nocolour}"
+  curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${logfile}
+
+  echo -e "${colour} Install NodeJS ${nocolour}"
+  dnf install nodejs -y &>>${logfile}
+
+  application_setup
 
   echo -e "${colour} change to app directory ${nocolour}"
   cd ${app_path}
@@ -32,15 +50,7 @@ nodejs() {
   echo -e "${colour} Install NodeJS Dependencies ${nocolour}"
   npm install &>>${logfile}
 
-  echo -e "${colour} setup systemd service ${nocolour}"
-  cp /home/centos/devops-shellscript/$component.service /etc/systemd/system/$component.service
-
-  echo -e "${colour} Daemon reload ${nocolour}"
-  systemctl daemon-reload
-
-  echo -e "${colour} Enable and restart catalogue service ${nocolour}"
-  systemctl enable $component &>>${logfile}
-  systemctl restart $component &>>${logfile}
+  systemd_setup
 
 }
 
@@ -54,4 +64,34 @@ mongodb_schema_setup() {
 
   echo -e "${colour} Configure Host ${nocolour}"
   mongo --host mongodb-dev.joyousgroups.com <${app_path}/schema/$component.js &>>${logfile}
+}
+
+mysql_schema_setup(){
+
+  echo -e "${colour} Install MySQL ${nocolour}"
+  dnf install mysql -y &>>${logfile}
+
+  echo -e "${colour} Install Schema ${nocolour}"
+  mysql -h mysql-dev.joyousgroups.com -uroot -pRoboShop@1 < ${app_path}/schema/${component}.sql &>>${logfile}
+}
+
+maven() {
+  
+  echo -e "${colour} Install Maven ${nocolour}"
+  dnf install maven -y &>>${logfile}
+  
+  application_setup
+
+  echo -e "${colour} Maven clean ${nocolour}"
+  mvn clean package &>>${logfile}
+  
+  echo -e "${colour} Install Jar file ${nocolour}"
+  mv target/${component}-1.0.jar ${component}.jar &>>${logfile}
+  
+  systemd_setup
+  mysql_schema_setup
+  
+  echo -e "${colour} Restart ${component} ${nocolour}"
+  systemctl restart ${component} &>>${logfile}
+  
 }
