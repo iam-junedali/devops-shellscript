@@ -51,7 +51,6 @@ nodejs() {
   npm install &>>${logfile}
 
   systemd_setup
-
 }
 
 mongodb_schema_setup() {
@@ -93,5 +92,17 @@ maven() {
   
   echo -e "${colour} Restart ${component} ${nocolour}"
   systemctl restart ${component} &>>${logfile}
-  
+}
+
+python() {
+
+  echo -e "${colour} Install python ${nocolour}"
+  dnf install python36 gcc python3-devel -y &>>/tmp/roboshop.log
+
+  application_setup
+
+  echo -e "${colour} Download the dependencies ${nocolour}"
+  pip3.6 install -r requirements.txt &>>/tmp/roboshop.log
+
+  systemd_setup
 }
