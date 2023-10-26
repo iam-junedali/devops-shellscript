@@ -97,12 +97,27 @@ maven() {
 python() {
 
   echo -e "${colour} Install python ${nocolour}"
-  dnf install python36 gcc python3-devel -y &>>/tmp/roboshop.log
+  dnf install python36 gcc python3-devel -y &>>${logfile}
 
   application_setup
 
   echo -e "${colour} Download the dependencies ${nocolour}"
-  pip3.6 install -r requirements.txt &>>/tmp/roboshop.log
+  pip3.6 install -r requirements.txt &>>${logfile}
+
+  systemd_setup
+}
+
+go_lang() {
+
+  echo -e "${colour} Install Golang ${nocolour}"
+  dnf install golang -y &>>${logfile}
+
+  application_setup
+
+  echo -e "${colour} Download Go Dependencies ${nocolour}"
+  go mod init dispatch &>>${logfile}
+  go get &>>${logfile}
+  go build &>>${logfile}
 
   systemd_setup
 }
